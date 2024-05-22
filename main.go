@@ -42,7 +42,7 @@ func main() {
 	sourceClient, err := api.NewClient(sourceDefaultConfig)
 
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating source vault client: %s\n", err)
+		fmt.Fprintf(os.Stderr, "error creating source vault client: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -61,7 +61,7 @@ func main() {
 	destinationClient, err := api.NewClient(destinationDefaultConfig)
 
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating destination vault client: %s\n", err)
+		fmt.Fprintf(os.Stderr, "error creating destination vault client: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -95,7 +95,7 @@ func main() {
 	// NOTE: This does NOT read the Token Reviewer JWT from the source vault
 	sourceK8sAuthConfig, err := sourceClient.Logical().Read("auth/" + sourceMountPath + "/config")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error reading k8s auth config from source vault: %s\n", err)
+		fmt.Fprintf(os.Stderr, "error reading k8s auth config from source vault: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -105,7 +105,7 @@ func main() {
 	// TODO: Support writing Token Reviewer JWT along with this, as it does NOT get read from the source vault
 	destinationK8sAuthConfig, err := destinationClient.Logical().Write("auth/"+destinationMountPath+"/config", sourceK8sAuthConfig.Data)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing k8s auth config to destination vault: %s\n", err)
+		fmt.Fprintf(os.Stderr, "error writing k8s auth config to destination vault: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -114,7 +114,7 @@ func main() {
 	// Get the Kubernetes Auth Roles from the source vault
 	sourceK8sAuthRolesInfo, err := sourceClient.Logical().List("auth/" + sourceMountPath + "/role")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error listing the k8s auth roles from source vault: %s\n", err)
+		fmt.Fprintf(os.Stderr, "error listing the k8s auth roles from source vault: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -126,7 +126,7 @@ func main() {
 		roleName := role.(string)
 		sourceK8sAuthRole, err := sourceClient.Logical().Read("auth/" + sourceMountPath + "/role/" + roleName)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error reading k8s auth role from source vault: %s\n", err)
+			fmt.Fprintf(os.Stderr, "error reading k8s auth role from source vault: %s\n", err)
 			os.Exit(1)
 		}
 
@@ -135,7 +135,7 @@ func main() {
 		// Create the Kubernetes Auth Role in the destination vault
 		destinationK8sAuthRole, err := destinationClient.Logical().Write("auth/"+destinationMountPath+"/role/"+roleName, sourceK8sAuthRole.Data)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error writing k8s auth role to destination vault: %s\n", err)
+			fmt.Fprintf(os.Stderr, "error writing k8s auth role to destination vault: %s\n", err)
 			os.Exit(1)
 		}
 
