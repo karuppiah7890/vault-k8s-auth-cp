@@ -281,6 +281,8 @@ root
 
 This alone, one needs to create themselves manually. In the future, one can use a separate tool for copying Vault Policies. I also plan to add the feature to this tool to copy just the Vault Policies referred to in the Kubernetes Auth Method Roles (Roles Configuration) from source Vault to destination Vault :) So that this manual step is NOT required :)
 
+Note: For now, until I add the feature to this tool to copy just the Vault Policies referred to in the Kubernetes Auth Method Roles (Roles Configuration) from source Vault to destination Vault, you can use my small and simple tool [`vault-policy-cp`](https://github.com/karuppiah7890/vault-policy-cp) to copy Vault Policies from source Vault to destination Vault
+
 Note: If the destination Vault does NOT have the Kubernetes Auth Method enabled at the given destination mount path, then the tool throws an error similar to this -
 
 ```bash
